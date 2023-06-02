@@ -1,56 +1,33 @@
 import { View, Text, StyleSheet, Button } from 'react-native'
-import React, { useContext } from 'react'
-import { DataContext, Fornecedor } from '../context/dataContext'
+import React, { useContext, useState } from 'react'
+import { Context } from '../context/authContext'
+import CustomButton from '../components/CustomButton';
 
-const Home = () => {
-  const actualState = useContext(DataContext)
+const Home = ({ navigation }) => {
+
+  const { state, dispatch } = useContext(Context);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home</Text>
-      <Text style={styles.text}> {actualState.state.counter}</Text>
-      <Button 
-        title="Aumentar"
-        onPress={() => actualState.dispatch({type:"aumentar", payload:100})}
-        />  
-        <br></br>
-        <Button 
-        title="Diminuir"
-        onPress={() => actualState.dispatch({type:"diminuir", payload:100})}
-        />
-        <br></br>
-        <Button 
-        title="Zerar"
-        onPress={() => actualState.dispatch({type:"zerar"})}
-        />
-        { actualState.state.showMessage ? <Text>MENSAGIS SECRETIS</Text> : null}
-        <br></br>
-        <Button 
-        title="Mostrar mensagem secreta"
-        onPress={() => actualState.dispatch({type:"mostrar"})}
-        />    
-
+      <Text style={styles.text}>Olá, {state.name}</Text>
+      <CustomButton text="Restaurants" onPress={() => navigation.navigate("Restaurants")} />
+      <CustomButton text="Reviews" onPress={() => navigation.navigate("Reviews")} />
+      <CustomButton text="Users" onPress={() => navigation.navigate("Users")} />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-      width: '100%',
-      marginVertical: 5,
-      alignItems: 'center',
+    flex: 1,
+    alignItems: "center",
+    justifyContent:'space-around'
+    
   },
   text: {
-      padding: 15, 
-      fontSize: 35,
-      alignItems: 'center',
-  }    
+    fontSize: 30,
+    margin: 40
+  }
 })
 
-
-export default () => {
-  return(
-    <Fornecedor>
-      <Home />
-    </Fornecedor>
-  )
-}
+export default Home;

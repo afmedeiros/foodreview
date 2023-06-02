@@ -1,27 +1,19 @@
-//Importação de pacotes necessários
-
-import express from "express";
+import express from 'express';
+import dotenv from 'dotenv';
+import router from './routes/routes.js';
 import bodyParser from 'body-parser';
-import router from "./routes/routes.js";
+import cors from 'cors';
 
-// Rodar o servidor Express
+// Carrega o config
+dotenv.config({ path: './config/config.env' });
 
+// Roda o servidor
 const server = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
+server.listen(port, console.log("Servidor rodando em " + process.env.NODE_ENV + " na porta " + port + "..."));
 
-server.listen(port, console.log(`Servidor rodando na porta ${port}...`));
-
-server.use(bodyParser.urlencoded( { extended: true} ));
+// Define as rotas
+server.use(cors());
+server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(router);
-
-// server.get('/',(req, res) => {
-//     const {nome, cpf} = req.body;
-//     res.send(`Olá, ${nome}, o seu CPF é ${cpf}`)
-//   })
-
-
-// server.get('/user',(req, res) => {
-//     res.send('Página do Usuário')   
-// })
-
